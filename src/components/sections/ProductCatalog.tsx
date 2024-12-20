@@ -493,13 +493,15 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ defaultCategory }) => {
         {/* Product Grid */}
         <div className="mb-4 grid gap-6 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
           {filteredProducts.map((product) => (
-            <a 
-              key={product.id} 
-              href={`/product/${product.id}`}
+            <div 
+              key={product.id}
               className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
             >
               {/* Product Image */}
-              <div className="relative h-56 w-full overflow-hidden rounded-lg">
+              <div 
+                className="relative h-56 w-full overflow-hidden rounded-lg cursor-pointer"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
                 <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
               </div>
 
@@ -516,7 +518,7 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ defaultCategory }) => {
                   <div className="flex items-center justify-end gap-2">
                     <button 
                       type="button" 
-                      onClick={(e) => handleQuickView(product.id, e)}
+                      onClick={() => navigate(`/product/${product.id}`)}
                       className="rounded-lg p-2 text-gray-500 hover:bg-gray-50 hover:text-blue-600"
                     >
                       <Eye className="h-5 w-5" />
@@ -535,58 +537,26 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ defaultCategory }) => {
                   </div>
                 </div>
 
-                {/* Product Name */}
-                <h3 className="text-lg font-light tracking-wider text-gray-900 hover:text-blue-600">
-                  {product.name}
-                </h3>
-
-                {/* Ratings */}
-                {product.rating && (
-                  <div className="mt-2 flex items-center gap-2">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, index) => (
-                        <Star
-                          key={index}
-                          className={`h-4 w-4 ${index < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-200'}`}
-                          fill="currentColor"
-                        />
-                      ))}
-                    </div>
-                    <p className="text-sm font-light text-gray-900">{product.rating}</p>
-                    <p className="text-sm font-light text-gray-500">({product.reviews})</p>
-                  </div>
-                )}
-
-                {/* Features */}
-                {product.features && (
-                  <ul className="mt-3 flex items-center gap-4">
-                    {product.features.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        {index === 0 ? <Truck className="h-4 w-4 text-gray-400" /> : <CreditCard className="h-4 w-4 text-gray-400" />}
-                        <p className="text-sm font-light text-gray-500">{feature}</p>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {/* Price and Add to Cart */}
-                <div className="mt-4 flex items-center justify-between gap-4">
-                  <p className="text-2xl font-light tracking-wider text-gray-900">${product.price}</p>
-                  <button 
-                    type="button" 
-                    onClick={(e) => handleAddToCart(product, e)}
-                    className={`inline-flex items-center rounded-lg px-5 py-2.5 text-sm font-light tracking-wider text-white focus:outline-none focus:ring-4 focus:ring-blue-100 ${
-                      isInCart(product.id)
-                        ? 'bg-gray-600 hover:bg-gray-700'
-                        : 'bg-blue-600 hover:bg-blue-700'
-                    }`}
-                  >
-                    <ShoppingCart className="me-2 h-5 w-5" />
-                    {isInCart(product.id) ? 'IN CART' : 'ADD TO CART'}
-                  </button>
+                <div 
+                  className="cursor-pointer"
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
+                  <h3 className="mb-2 text-lg font-light">{product.name}</h3>
+                  <p className="text-gray-600 font-light">${product.price}</p>
                 </div>
+
+                <button
+                  onClick={(e) => handleAddToCart(product, e)}
+                  className={`mt-4 w-full rounded-lg py-2.5 text-sm font-light tracking-wider transition-colors ${
+                    isInCart(product.id)
+                      ? 'bg-gray-100 text-gray-600'
+                      : 'bg-black text-white hover:bg-black/90'
+                  }`}
+                >
+                  {isInCart(product.id) ? 'IN CART' : 'ADD TO CART'}
+                </button>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>

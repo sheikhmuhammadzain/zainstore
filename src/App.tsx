@@ -10,6 +10,7 @@ import Checkout from './pages/Checkout';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+import { SearchProvider } from './context/SearchContext';
 import { Toaster } from 'react-hot-toast';
 
 const Home = () => (
@@ -41,34 +42,36 @@ const App: React.FC = () => {
   return (
     <CartProvider>
       <WishlistProvider>
-        <Router>
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/mens" element={<MensCollection />} />
-                <Route path="/womens" element={<WomensCollection />} />
-                <Route path="/kids" element={<KidsCollection />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/checkout/success" element={<CheckoutSuccess />} />
-              </Routes>
-            </main>
-            <Footer />
-            <Toaster 
-              position="bottom-right"
-              toastOptions={{
-                className: '',
-                style: {
-                  background: '#333',
-                  color: '#fff',
-                },
-              }}
-            />
-          </div>
-        </Router>
+        <SearchProvider>
+          <Router>
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/mens" element={<MensCollection />} />
+                  <Route path="/womens" element={<WomensCollection />} />
+                  <Route path="/kids" element={<KidsCollection />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/checkout/success" element={<CheckoutSuccess />} />
+                </Routes>
+              </main>
+              <Footer />
+              <Toaster 
+                position="bottom-right"
+                toastOptions={{
+                  className: '',
+                  style: {
+                    background: '#333',
+                    color: '#fff',
+                  },
+                }}
+              />
+            </div>
+          </Router>
+        </SearchProvider>
       </WishlistProvider>
     </CartProvider>
   );
